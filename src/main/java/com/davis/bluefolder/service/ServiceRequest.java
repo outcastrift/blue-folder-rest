@@ -10,14 +10,13 @@ import java.util.Date;
  * Created by Samuel Davis on 7/5/16.
  * Class Description
  */
-public class BFServiceRequest {
+public class ServiceRequest {
 
     private int assignedToUserID;
     private String assignedToUser;
     private int createdByUserID;
     private String notes;
     private double taxableExpensesAmount;
-
     private double timeOpen_hours;
     private String requestDetails;
     private int requestVerified;
@@ -93,10 +92,7 @@ public class BFServiceRequest {
     private Date dateTimeExportedForBilling;
     private double nonBillableLaborHours;
     private String serviceManager;
-    private ArrayList<LaborItem> labor;
-    private ArrayList<LogEntry> log;
-    private ArrayList<CustomField> customFields;
-    private ArrayList<ExpenseItem> expenses;
+
 
     public int getAssignedToUserID() {
         return assignedToUserID;
@@ -714,35 +710,5 @@ public class BFServiceRequest {
         this.serviceManager = serviceManager;
     }
 
-    public ArrayList<LaborItem> getLabor() {
-        return labor;
-    }
 
-    public void setLabor(ArrayList<LaborItem> labor) {
-        this.labor = labor;
-    }
-
-    public ArrayList<LogEntry> getLog() {
-        return log;
-    }
-
-    public void setLog(ArrayList<LogEntry> log) {
-        this.log = log;
-    }
-
-    public ArrayList<CustomField> getCustomFields() {
-        return customFields;
-    }
-
-    public void setCustomFields(ArrayList<CustomField> customFields) {
-        this.customFields = customFields;
-    }
-
-    public ArrayList<ExpenseItem> getExpenses() {
-        return expenses;
-    }
-
-    public void setExpenses(ArrayList<ExpenseItem> expenses) {
-        this.expenses = expenses;
-    }
 }

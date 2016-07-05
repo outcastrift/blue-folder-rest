@@ -1,5 +1,10 @@
 package com.davis;
 
+import com.davis.bluefolder.deserializers.*;
+import com.davis.bluefolder.service.CustomField;
+import com.davis.bluefolder.service.ExpenseItem;
+import com.davis.bluefolder.service.LaborItem;
+import com.davis.bluefolder.service.LogEntry;
 import com.google.gson.*;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
@@ -53,9 +58,19 @@ public class BaseBlueFolderTest {
     public static Gson gson ;
     @Before
     public void setup(){
-        gson = new GsonBuilder().setPrettyPrinting()
-                .registerTypeAdapter(Date.class, new DateDeserializer())
+       gson = new GsonBuilder()
+                .setPrettyPrinting()
+                .registerTypeAdapter(Date.class,new DateDeserializer())
                 .create();
+
+       /* gson = new GsonBuilder().setPrettyPrinting()
+                .registerTypeAdapter(Date.class, new DateDeserializer())
+                .registerTypeAdapter(CustomField.class, new CustomFieldDeserializer(deserializerGson))
+                .registerTypeAdapter(ExpenseItem.class, new ExpenseItemDeserializer(deserializerGson))
+                .registerTypeAdapter(LaborItem.class, new LaborItemDeserializer(deserializerGson))
+                .registerTypeAdapter(LogEntry.class, new LogEntryDeserializer(deserializerGson))
+
+                .create();*/
     }
 
 
@@ -130,20 +145,6 @@ public class BaseBlueFolderTest {
 
 
 
-    private class DateDeserializer implements JsonDeserializer<Date> {
 
-        @Override
-        public Date deserialize(JsonElement jsonElement, Type typeOF,
-                                JsonDeserializationContext context) throws JsonParseException {
-            for (String format : DATE_FORMATS) {
-                try {
-                    return new SimpleDateFormat(format, Locale.US).parse(jsonElement.getAsString());
-                } catch (ParseException e) {
-                }
-            }
-            throw new JsonParseException("Unparseable date: \"" + jsonElement.getAsString()
-                    + "\". Supported formats: " + Arrays.toString(DATE_FORMATS));
-        }
-    }
 
 }

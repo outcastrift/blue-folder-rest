@@ -1,8 +1,8 @@
 package com.davis;
 
-import com.davis.bluefolder.service.BFServiceRequest;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
+import com.davis.bluefolder.service.ServiceRequest;
+import com.davis.bluefolder.service.ServiceResponse;
+import com.google.gson.*;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
@@ -155,13 +155,20 @@ public class ServiceTests extends BaseBlueFolderTest {
 
         writeToFile("testGetSingleServiceRequest_Object.json", convertXmlToJson(result));
         String jsonString = convertXmlToJson(result);
-        JsonObject jsonObject = gson.fromJson(jsonString,JsonObject.class);
-        JsonObject request = jsonObject.getAsJsonObject("response").getAsJsonObject("serviceRequest");
-        BFServiceRequest bfServiceRequest = gson.fromJson(request, BFServiceRequest.class);
+      //  JsonObject jsonObject = gson.fromJson(jsonString,JsonObject.class);
+        JsonParser parser = new JsonParser();
+        JsonObject jsonObject = parser.parse(jsonString).getAsJsonObject();
+        JsonElement response = jsonObject.get("response");
+        JsonElement jsonServiceRequest = response.getAsJsonObject().get("serviceRequest");
+        //TODO fix the Labor - Expenses - Log - and CustomFields, whenever I add them it breaks the parser.
+        ServiceRequest serviceRequest = gson.fromJson( jsonServiceRequest , ServiceRequest.class);
 
 
 
-        assertTrue(bfServiceRequest != null);
+
+        String s = serviceRequest.getAssignedToUser();
+
+        assertTrue(serviceRequest != null);
     }
     @Test
     public void testHistoryForSingleServiceRequest_XML() throws Exception {
