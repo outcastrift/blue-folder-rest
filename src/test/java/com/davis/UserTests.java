@@ -1,9 +1,16 @@
 package com.davis;
 
+import com.davis.bluefolder.BFUser;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.XML;
 import org.junit.Test;
+
+import java.util.ArrayList;
+
+import static org.junit.Assert.assertTrue;
 
 /**
  * This software was created for
@@ -13,7 +20,6 @@ import org.junit.Test;
  * Class Description
  */
 public class UserTests extends BaseBlueFolderTest {
-    public static int PRETTY_PRINT_INDENT_FACTOR = 4;
 
     @Test
     public void testGetAllUsersBasic() throws Exception {
@@ -38,9 +44,24 @@ public class UserTests extends BaseBlueFolderTest {
                         "</userList>" +
                         "</request>"
         );
-
+        String jsonString = convertXmlToJson(result);
         writeToFile("allUsersFull.json",convertXmlToJson(result));
+
+
+        JsonObject jsonObject = gson.fromJson(jsonString,JsonObject.class);
+        JsonArray  jsonArray = jsonObject.getAsJsonObject("response").getAsJsonArray("user");
+
+
+        BFUser[] userList = gson.fromJson(jsonArray,BFUser[].class);
+
+        
+
+
+        assertTrue(userList.length > 0);
+
     }
+
+
 
 
 }

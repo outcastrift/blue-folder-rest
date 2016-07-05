@@ -1,5 +1,6 @@
 package com.davis;
 
+import com.google.gson.*;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
@@ -10,12 +11,24 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.XML;
+import org.junit.Before;
 
 import javax.xml.transform.TransformerException;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.lang.reflect.Type;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.Locale;
+
 
 /**
  * This software was created for
@@ -25,6 +38,24 @@ import java.io.StringWriter;
  * Class Description
  */
 public class BaseBlueFolderTest {
+    public static int PRETTY_PRINT_INDENT_FACTOR = 4;
+    private static final String[] DATE_FORMATS = new String[] {
+            "MMM dd, yyyy HH:mm:ss",
+            "MMM dd, yyyy",
+            "MM-dd-yyyy hh:mma",
+            "yyyy-MM-dd'T'HH:mm:ss:SSS",
+            "yyyy-MM-dd'T'HH:mm:ss.SSSXXX",
+            "yyyy-MM-dd'T'HH:mm:ss:SSSXXX",
+            "yyyy-MM-dd'T'HH:mm:ss.SSS",
+            "yyyy-MM-dd'T'HH:mm:ss"
+    };
+
+    public static Gson gson ;
+    @Before
+    public void setup(){
+        gson = new GsonBuilder().registerTypeAdapter(Date.class, new DateDeserializer()).create();
+    }
+
 
     public String formatXML(String input)
     {
@@ -93,4 +124,24 @@ public class BaseBlueFolderTest {
 
         return jsonPrettyPrintString;
     }
+
+
+
+
+    private class DateDeserializer implements JsonDeserializer<Date> {
+
+        @Override
+        public Date deserialize(JsonElement jsonElement, Type typeOF,
+                                JsonDeserializationContext context) throws JsonParseException {
+            for (String format : DATE_FORMATS) {
+                try {
+                    return new SimpleDateFormat(format, Locale.US).parse(jsonElement.getAsString());
+                } catch (ParseException e) {
+                }
+            }
+            throw new JsonParseException("Unparseable date: \"" + jsonElement.getAsString()
+                    + "\". Supported formats: " + Arrays.toString(DATE_FORMATS));
+        }
+    }
+
 }
