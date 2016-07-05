@@ -1,5 +1,8 @@
 package com.davis;
 
+import com.davis.bluefolder.service.BFServiceRequest;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import org.junit.Test;
 import org.xml.sax.SAXException;
@@ -17,7 +20,7 @@ public class ServiceTests extends BaseBlueFolderTest {
 
     //this thing returns like 48 MB
     //@Test
-    public void testGetAllServiceRequestsXML() throws UnirestException, IOException, ParserConfigurationException, SAXException, TransformerException {
+    public void testGetAllServiceRequests_XML() throws UnirestException, IOException, ParserConfigurationException, SAXException, TransformerException {
         String url = "https://app.bluefolder.com/api/1.0/serviceRequests/list.aspx";
         String serviceRequests = getResponseString(url,
                 "<request>" +
@@ -33,7 +36,7 @@ public class ServiceTests extends BaseBlueFolderTest {
 
     //41 MB in JSON
     //@Test
-    public void testGetAllServiceRequestsJSON() throws UnirestException, IOException, ParserConfigurationException, SAXException, TransformerException {
+    public void testGetAllServiceRequests_JSON() throws UnirestException, IOException, ParserConfigurationException, SAXException, TransformerException {
         String url = "https://app.bluefolder.com/api/1.0/serviceRequests/list.aspx";
         String serviceRequests = getResponseString(url,
                 "<request>" +
@@ -48,7 +51,7 @@ public class ServiceTests extends BaseBlueFolderTest {
     }
 
     @Test
-    public void testGetServiceRequestsWithinDateXML() throws UnirestException, IOException, ParserConfigurationException, SAXException, TransformerException {
+    public void testGetServiceRequestsWithinDate_XML() throws UnirestException, IOException, ParserConfigurationException, SAXException, TransformerException {
         String url = "https://app.bluefolder.com/api/1.0/serviceRequests/list.aspx";
 
         String serviceRequests = getResponseString(url,
@@ -65,7 +68,7 @@ public class ServiceTests extends BaseBlueFolderTest {
     }
 
     @Test
-    public void testGetServiceRequestsWithinDateJSON() throws UnirestException, IOException, ParserConfigurationException, SAXException, TransformerException {
+    public void testGetServiceRequestsWithinDate_JSON() throws UnirestException, IOException, ParserConfigurationException, SAXException, TransformerException {
         String url = "https://app.bluefolder.com/api/1.0/serviceRequests/list.aspx";
 
         String serviceRequests = getResponseString(url,
@@ -122,7 +125,7 @@ public class ServiceTests extends BaseBlueFolderTest {
     }
 
     @Test
-    public void testGetSingleServiceRequestXML() throws Exception {
+    public void testGetSingleServiceRequest_XML() throws Exception {
         String url = "https://app.bluefolder.com/api/1.0/serviceRequests/get.aspx";
         String result = getResponseString(url,
                 "<request>" +
@@ -133,7 +136,7 @@ public class ServiceTests extends BaseBlueFolderTest {
     }
 
     @Test
-    public void testGetSingleServiceRequestJSON() throws Exception {
+    public void testGetSingleServiceRequest_JSON() throws Exception {
         String url = "https://app.bluefolder.com/api/1.0/serviceRequests/get.aspx";
         String result = getResponseString(url,
                 "<request>" +
@@ -142,9 +145,26 @@ public class ServiceTests extends BaseBlueFolderTest {
         writeToFile("singleServiceRequest.json", convertXmlToJson(result));
         assertTrue(result.length() > 0);
     }
-
     @Test
-    public void testHistoryForSingleServiceRequestXML() throws Exception {
+    public void testGetSingleServiceRequest_Object() throws Exception {
+        String url = "https://app.bluefolder.com/api/1.0/serviceRequests/get.aspx";
+        String result = getResponseString(url,
+                "<request>" +
+                        "<serviceRequestID>30141</serviceRequestID>" +
+                        "</request>");
+
+        writeToFile("testGetSingleServiceRequest_Object.json", convertXmlToJson(result));
+        String jsonString = convertXmlToJson(result);
+        JsonObject jsonObject = gson.fromJson(jsonString,JsonObject.class);
+        JsonObject request = jsonObject.getAsJsonObject("response").getAsJsonObject("serviceRequest");
+        BFServiceRequest bfServiceRequest = gson.fromJson(request, BFServiceRequest.class);
+
+
+
+        assertTrue(bfServiceRequest != null);
+    }
+    @Test
+    public void testHistoryForSingleServiceRequest_XML() throws Exception {
 
         String url = "https://app.bluefolder.com/api/1.0/serviceRequests/getHistory.aspx";
 
@@ -158,7 +178,7 @@ public class ServiceTests extends BaseBlueFolderTest {
     }
 
     @Test
-    public void testHistoryForSingleServiceRequestJSON() throws Exception {
+    public void testHistoryForSingleServiceRequest_JSON() throws Exception {
 
         String url = "https://app.bluefolder.com/api/1.0/serviceRequests/getHistory.aspx";
 
@@ -215,27 +235,8 @@ public class ServiceTests extends BaseBlueFolderTest {
     }
 
 
-    /**
-     * serviceRequestFileID - integer, unique ID for the service request file or link(0 for all signature files)
-     * serviceRequestSignedDocumentID - integer, unique ID for the signed document (0 for all service request files and links)
-     * isexternal - boolean, true for external links, false for files and signatures
-     * issigneddocument - boolen, true for all signed document entries (false for service request files and links)
-     * fileDescription - string, description tag for the file, link, or signature
-     * fileLastModified - string date, last modification date and time
-     * fileName - string, name of the file (may be URL for the link, name of a physical file, or blank)
-     * fileSize - integer, size of the file (0 for links and signature documents)
-     * fileType - string, type of file (image/jpeg, external, signature, etc.)
-     * private - boolen, true if the file or link will not appear on any customer portal
-     * postedOn - string date, when the file, link, or signature file was posted to BlueFolder
-     * fileURL - string, value of the link to a file or link (blank for signature documents)
-     * documentName - string, name of the document (may be blank)
-     * signatureFilePath_Customer - string, complete URL to the customer's signature capture image
-     * signatureFilePath_Technician - string, complete URL to the technician's signature capture image
-     * signatureName_Customer - string, printed name for the customer
-     * signatureName_Technician - string, printed name for the technician
-     **/
     @Test
-    public void testGetServiceRequestWithFilesXML() throws Exception {
+    public void testGetServiceRequestWithFiles_XML() throws Exception {
         String url = "https://app.bluefolder.com/api/1.0/serviceRequests/getFiles.aspx";
         String result = getResponseString(url,
                 "<request>" +
@@ -247,7 +248,7 @@ public class ServiceTests extends BaseBlueFolderTest {
     }
 
     @Test
-    public void testGetServiceRequestWithFilesJSON() throws Exception {
+    public void testGetServiceRequestWithFiles_JSON() throws Exception {
         String url = "https://app.bluefolder.com/api/1.0/serviceRequests/getFiles.aspx";
         String result = getResponseString(url,
                 "<request>"+
