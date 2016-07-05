@@ -53,7 +53,9 @@ public class BaseBlueFolderTest {
     public static Gson gson ;
     @Before
     public void setup(){
-        gson = new GsonBuilder().registerTypeAdapter(Date.class, new DateDeserializer()).create();
+        gson = new GsonBuilder().setPrettyPrinting()
+                .registerTypeAdapter(Date.class, new DateDeserializer())
+                .create();
     }
 
 
