@@ -1,4 +1,4 @@
-package com.davis.bluefolder;
+package com.davis.bluefolder.users;
 
 import java.util.Date;
 

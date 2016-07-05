@@ -1,14 +1,9 @@
 package com.davis;
 
-import com.davis.bluefolder.BFUser;
+import com.davis.bluefolder.users.BFUser;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.XML;
 import org.junit.Test;
-
-import java.util.ArrayList;
 
 import static org.junit.Assert.assertTrue;
 
