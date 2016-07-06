@@ -17,84 +17,159 @@
   <name>Blue Folder</name>
 
   <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <jdk.version>1.8</jdk.version>
+    <primary.ddf.version>2.8.2</primary.ddf.version>
+    <json.sanitizer.version>1.1</json.sanitizer.version>
+    <json.path.version>2.1.0</json.path.version>
+    <json.smart.version>2.2</json.smart.version>
+    <hamcrest-all.version>1.3</hamcrest-all.version>
+    <com.mikesamuel.json-sanitizer.version>[1.0,)</com.mikesamuel.json-sanitizer.version>
+    <slf4j-log4j12.version>1.7.12</slf4j-log4j12.version>
+    <slf4j.version>1.7.5</slf4j.version>
+    <javax.ws.rs-api.version>2.0.1</javax.ws.rs-api.version>
+    <cxf-rt-frontend-jaxrs.version>3.0.4</cxf-rt-frontend-jaxrs.version>
+    <junit.version>4.12</junit.version>
+    <mockito.version>1.9.5</mockito.version>
+    <com.jayway.rest-assured.version>2.9.1</com.jayway.rest-assured.version>
+    <commons-io.version>2.1</commons-io.version>
+    <apache.commons-lang3.version>3.4</apache.commons-lang3.version>
+    <shiro.version>1.2.3</shiro.version>
+    <osgi-core-version>5.0.0</osgi-core-version>
+    <org-json-version>20140107</org-json-version>
+    <http-client-version>4.5</http-client-version>
+    <google-guava-version>15.0</google-guava-version>
+    <cxf-bundle-jaxrs-version>2.7.8</cxf-bundle-jaxrs-version>
+    <org-glassfish-jersey-common-version>2.22.1</org-glassfish-jersey-common-version>
+    <jersey-client-version>1.8</jersey-client-version>
+    <gson-version>2.3.1</gson-version>
+    <fsterxml-jackson-version>2.7.3</fsterxml-jackson-version>
+    <codehaus-jackson-version>1.9.11</codehaus-jackson-version>
   </properties>
-
   <dependencies>
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.12</version>
-      <scope>test</scope>
+      <groupId>org.apache.cxf</groupId>
+      <artifactId>cxf-rt-frontend-jaxrs</artifactId>
+      <version>${cxf-rt-frontend-jaxrs.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>org.osgi.core</artifactId>
+      <version>${osgi-core-version}</version>
+    </dependency>
+    <dependency>
+      <groupId>ddf.content.core</groupId>
+      <artifactId>content-core-api</artifactId>
+      <version>${primary.ddf.version}</version>
     </dependency>
 
-    <dependency>
-      <groupId>joda-time</groupId>
-      <artifactId>joda-time</artifactId>
-      <version>2.9.4</version>
-    </dependency>
-    <dependency>
-      <groupId>com.mashape.unirest</groupId>
-      <artifactId>unirest-java</artifactId>
-      <version>1.4.9</version>
-    </dependency>
     <dependency>
       <groupId>org.apache.httpcomponents</groupId>
       <artifactId>httpclient</artifactId>
-      <version>4.3.6</version>
+      <version>${http-client-version}</version>
+    </dependency>
+    <!--  Using the OSGi version here for ease of build and deployment dependency -->
+
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>${commons-io.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.apache.httpcomponents</groupId>
-      <artifactId>httpasyncclient</artifactId>
-      <version>4.0.2</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.httpcomponents</groupId>
-      <artifactId>httpmime</artifactId>
-      <version>4.3.6</version>
-    </dependency>
-    <dependency>
-      <groupId>org.json</groupId>
-      <artifactId>json</artifactId>
-      <version>20140107</version>
-    </dependency>
-    <dependency>
-      <groupId>dom4j</groupId>
-      <artifactId>dom4j</artifactId>
-      <version>1.6.1</version>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <scope>compile</scope>
+      <version>${google-guava-version}</version>
     </dependency>
 
     <dependency>
-      <groupId>com.google.code.gson</groupId>
-      <artifactId>gson</artifactId>
-      <version>2.3.1</version>
+      <groupId>org.apache.shiro</groupId>
+      <artifactId>shiro-core</artifactId>
+      <version>${shiro.version}</version>
     </dependency>
     <dependency>
       <groupId>javax.ws.rs</groupId>
       <artifactId>javax.ws.rs-api</artifactId>
-      <version>2.0.1</version>
+      <version>${javax.ws.rs-api.version}</version>
     </dependency>
+
 
     <!-- Logging -->
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
-      <version>1.7.5</version>
+      <version>${slf4j.version}</version>
     </dependency>
+
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-log4j12</artifactId>
-      <version>1.7.12</version>
-
+      <scope>test</scope>
+      <version>${slf4j-log4j12.version}</version>
     </dependency>
 
-    <!-- http://stackoverflow.com/questions/27868936/java-lang-classnotfoundexception-javax-ws-rs-messageprocessingexception -->
+    <!-- Testing -->
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <scope>test</scope>
+      <version>${mockito.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.cxf</groupId>
+      <artifactId>cxf-bundle-jaxrs</artifactId>
+      <scope>test</scope>
+      <version>${cxf-bundle-jaxrs-version}</version>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+      <version>${junit.version}</version>
+    </dependency>
     <dependency>
       <groupId>org.glassfish.jersey.core</groupId>
       <artifactId>jersey-common</artifactId>
-      <version>2.22.1</version>
+      <version>${org-glassfish-jersey-common-version}</version>
+    </dependency>
+    <dependency>
+      <groupId>ddf.catalog.core</groupId>
+      <artifactId>catalog-core-api</artifactId>
+      <version>${primary.ddf.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>ddf.catalog.core</groupId>
+      <artifactId>catalog-core-api-impl</artifactId>
+      <version>${primary.ddf.version}</version>
     </dependency>
 
+    <dependency>
+      <groupId>ddf.catalog.core</groupId>
+      <artifactId>catalog-core-commons</artifactId>
+      <scope>provided</scope>
+      <version>${primary.ddf.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>ddf.catalog.opensearch</groupId>
+      <artifactId>catalog-opensearch-source</artifactId>
+      <scope>provided</scope>
+      <version>${primary.ddf.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.sun.jersey</groupId>
+      <artifactId>jersey-client</artifactId>
+      <version>${jersey-client-version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.json</groupId>
+      <artifactId>json</artifactId>
+      <version>${org-json-version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>${apache.commons-lang3.version}</version>
+    </dependency>
 
     <!--These are all being embedded via private package this is done to preserve the JVM classpath and prevent
     bundle from importing these methods.  You can still expose them services if you want to .-->
@@ -160,12 +235,53 @@
       <version>${codehaus-jackson-version}</version>
     </dependency>
     <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-lang3</artifactId>
-      <version>${apache.commons-lang3.version}</version>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.12</version>
+      <scope>test</scope>
     </dependency>
-  </dependencies>
 
+    <dependency>
+      <groupId>joda-time</groupId>
+      <artifactId>joda-time</artifactId>
+      <version>2.9.4</version>
+    </dependency>
+    <dependency>
+      <groupId>com.mashape.unirest</groupId>
+      <artifactId>unirest-java</artifactId>
+      <version>1.4.9</version>
+
+    </dependency>
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+      <version>4.3.6</version>
+
+    </dependency>
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpasyncclient</artifactId>
+      <version>4.0.2</version>
+
+    </dependency>
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpmime</artifactId>
+      <version>4.3.6</version>
+
+    </dependency>
+    <dependency>
+      <groupId>org.json</groupId>
+      <artifactId>json</artifactId>
+      <version>20140107</version>
+    </dependency>
+    <dependency>
+      <groupId>dom4j</groupId>
+      <artifactId>dom4j</artifactId>
+      <version>1.6.1</version>
+    </dependency>
+
+  </dependencies>
 
   <build>
     <plugins>
@@ -174,32 +290,35 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>2.5.1</version>
         <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
+          <source>${jdk.version}</source>
+          <target>${jdk.version}</target>
         </configuration>
       </plugin>
+
       <plugin>
         <groupId>org.apache.felix</groupId>
         <artifactId>maven-bundle-plugin</artifactId>
-        <version>2.5.3</version>
+        <version>2.3.7</version>
         <extensions>true</extensions>
         <configuration>
           <instructions>
-            <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-            <Embed-Dependency> *;scope=compile|runtime;</Embed-Dependency>
-            <Embed-Transitive>true</Embed-Transitive>
-            <Import-Package>*;resolution:=optional</Import-Package>
-            <!--<Private-Package>
+            <Embed-Dependency>httpclient,httpasyncclient,httpmime,joda-time</Embed-Dependency>
+            <Bundle-ClassPath>.,httpclient,httpasyncclient,httpmime,joda-time</Bundle-ClassPath>
+            <Bundle-SymbolicName>${project.groupId}.${project.artifactId}
+            </Bundle-SymbolicName>
+            <Private-Package>
               org.apache.commons.lang3, org.apache.commons.lang3.exception,
               org.apache.commons.lang3.text,
               org.apache.commons.lang3.text.translate,
-              com.davis.ddf.test.ddf.test.source.*,
+              com.davis.bluefolder.*,
               com.google.gson.*,
               com.jayway.restassured.*,
               com.jayway.jsonpath.*,
               org.codehaus.jackson.*,
               org.hamcrest.*,
               com.fasterxml.*,
+              com.google.json.*,
+              org.json.*,
               com.mashape.*
             </Private-Package>
             <Import-Package>
@@ -235,13 +354,15 @@
               !com.github.scribejava.core.model,
               !com.github.scribejava.core.oauth,
               *
-            </Import-Package>-->
+            </Import-Package>
             <Export-Package>
-             com.davis.bluefolder.*
+              com.davis.bluefolder.*
             </Export-Package>
           </instructions>
         </configuration>
       </plugin>
+
+
     </plugins>
   </build>
 </project>

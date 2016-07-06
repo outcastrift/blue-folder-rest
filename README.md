@@ -1,16 +1,18 @@
-#TO BUILD
+#To Build
     mvn clean install
     
 # To deploy 
 
-    Unzip the included apache karaf distribution. 
+     Download DDF 2.8.2 
+    
     cd into the server directory
-    execute bin/karaf to start the server
+    execute bin/ddf to start the server
     once the console has booted execute the following commands
     
-    feature:repo-add cxf
-    feature:install cxf
+    navigate to https:localhost:8993/admin
+    Install the full developer version
     
-    Now copy the built assembly-kar-1.0.0.kar file into the deploy directory of the karaf server
+    
+    Now copy the built assembly-kar-1.0.0.kar file into the deploy directory of the ddf server
     It should install without any effort from you.
     
