@@ -17,6 +17,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.XML;
 
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.core.Response;
 import javax.xml.transform.TransformerException;
 import java.io.File;
 import java.io.FileWriter;
@@ -31,17 +35,28 @@ import java.util.Date;
  * Created by Samuel Davis on 7/5/16.
  * Class Description
  */
+
+@Path("/")
+@Consumes("application/json")
 public class EndpointRunner {
     public static int PRETTY_PRINT_INDENT_FACTOR = 4;
     public static Gson gson ;
 
-    public static void main(String args[]){
+
+    public EndpointRunner(){
         gson = new GsonBuilder()
                 .setPrettyPrinting()
                 .registerTypeAdapter(Date.class,new DateDeserializer())
                 .create();
     }
 
+
+
+    @GET
+    @Path("/getAllUsers")
+    public Response getAllUsers(){
+        return null;
+    }
     public String formatXML(String input)
     {
         try

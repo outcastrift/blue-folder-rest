@@ -94,6 +94,76 @@
       <artifactId>jersey-common</artifactId>
       <version>2.22.1</version>
     </dependency>
+
+
+    <!--These are all being embedded via private package this is done to preserve the JVM classpath and prevent
+    bundle from importing these methods.  You can still expose them services if you want to .-->
+    <!--The majority if not all of these can be moved into the Dependencies section of the KAR if we wanted.
+    I just wanted this test bundle to be standalone so it could be dropped into any karaf and used.-->
+    <!--JSON-->
+    <dependency>
+      <groupId>com.mikesamuel.osgi</groupId>
+      <artifactId>json-sanitizer-osgi</artifactId>
+      <scope>compile</scope>
+      <version>${json.sanitizer.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.jayway.jsonpath</groupId>
+      <artifactId>json-path</artifactId>
+      <scope>compile</scope>
+      <version>${json.path.version}</version>
+    </dependency>
+    <dependency>
+      <!-- runtime dependency for json-path above -->
+      <groupId>net.minidev</groupId>
+      <artifactId>json-smart</artifactId>
+      <scope>compile</scope>
+      <version>${json.smart.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.hamcrest</groupId>
+      <artifactId>hamcrest-all</artifactId>
+      <scope>compile</scope>
+      <version>${hamcrest-all.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.jayway.restassured</groupId>
+      <artifactId>rest-assured-osgi</artifactId>
+      <version>${com.jayway.rest-assured.version}</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+      <scope>compile</scope>
+      <version>${gson-version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-core</artifactId>
+      <version>${fsterxml-jackson-version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>${fsterxml-jackson-version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.jackson</groupId>
+      <artifactId>jackson-core-asl</artifactId>
+      <version>${codehaus-jackson-version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.jackson</groupId>
+      <artifactId>jackson-mapper-asl</artifactId>
+      <version>${codehaus-jackson-version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>${apache.commons-lang3.version}</version>
+    </dependency>
   </dependencies>
 
 
@@ -116,10 +186,59 @@
         <configuration>
           <instructions>
             <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-            <Export-Package />
+            <Embed-Dependency> *;scope=compile|runtime;</Embed-Dependency>
+            <Embed-Transitive>true</Embed-Transitive>
+            <Import-Package>*;resolution:=optional</Import-Package>
+            <!--<Private-Package>
+              org.apache.commons.lang3, org.apache.commons.lang3.exception,
+              org.apache.commons.lang3.text,
+              org.apache.commons.lang3.text.translate,
+              com.davis.ddf.test.ddf.test.source.*,
+              com.google.gson.*,
+              com.jayway.restassured.*,
+              com.jayway.jsonpath.*,
+              org.codehaus.jackson.*,
+              org.hamcrest.*,
+              com.fasterxml.*,
+              com.mashape.*
+            </Private-Package>
             <Import-Package>
+              !org.apache.commons.lang3,
+              !org.apache.commons.lang3.builder,
+              !org.apache.commons.lang3.math,
+              !org.apache.commons.lang3.mutable,
+              !org.apache.commons.lang3.tuple,
+              !org.codice.ddf.cxf*,
+              !org.joda.*,!com.google.common.io,
+              !com.rometools.rome.feed.synd,
+              !com.rometools.rome.io,!org.jdom2,!org.codice.ddf.security.common.jaxrs,
+              !org.apache.commons.cli,
+              !org.apache.ivy.util,
+              !org.apache.maven.doxia.sink,
+              !org.apache.tools.ant,
+              !org.apache.tools.ant.types,
+              !org.apache.velocity.app,
+              !org.apache.velocity.exception,
+              !org.apache.velocity.runtime,
+              !org.apache.velocity.runtime.log,
+              !org.apache.velocity.runtime.resource,
+              !org.apache.velocity.runtime.resource.loader,
+              !org.easymock,
+              !org.jmock.core,
+              !org.scribe.builder.api,
+              !org.scribe.model,
+              !org.scribe.oauth,
+              !org.apache.commons.logging.*,
+              !org.ccil.cowan.tagsoup,
+              !javassist,
+              !com.github.scribejava.core.builder.api,
+              !com.github.scribejava.core.model,
+              !com.github.scribejava.core.oauth,
               *
-            </Import-Package>
+            </Import-Package>-->
+            <Export-Package>
+             com.davis.bluefolder.*
+            </Export-Package>
           </instructions>
         </configuration>
       </plugin>
