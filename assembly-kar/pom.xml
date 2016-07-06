@@ -28,7 +28,58 @@
     <name>Blue-Folder :: Kar Installation</name>
     <version>1.0.0</version>
     <packaging>pom</packaging>
-
+<dependencies>
+  <!--  <dependency>
+        <groupId>org.apache.shiro</groupId>
+        <artifactId>shiro-core</artifactId>
+        <version>1.2.4</version>
+    </dependency>-->
+    <dependency>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava</artifactId>
+        <version>19.0</version>
+    </dependency>
+   <!-- <dependency>
+        <groupId>org.apache.servicemix.bundles</groupId>
+        <artifactId>org.apache.servicemix.bundles.solr-solrj</artifactId>
+        <version>4.10.4_1</version>
+    </dependency>
+    <dependency>
+        <groupId>org.apache.servicemix.bundles</groupId>
+        <artifactId>org.apache.servicemix.bundles.noggit</artifactId>
+        <version>0.7_1</version>
+    </dependency>-->
+    <dependency>
+        <groupId>org.apache.httpcomponents</groupId>
+        <artifactId>httpclient-osgi</artifactId>
+        <version>4.5</version>
+    </dependency>
+    <dependency>
+        <groupId>org.apache.httpcomponents</groupId>
+        <artifactId>httpcore-osgi</artifactId>
+        <version>4.4.1</version>
+    </dependency>
+    <dependency>
+        <groupId>org.codehaus.groovy</groupId>
+        <artifactId>groovy-all</artifactId>
+        <version>2.4.5</version>
+    </dependency>
+    <dependency>
+        <groupId>com.jayway.jsonpath</groupId>
+        <artifactId>json-path</artifactId>
+        <version>2.1.0</version>
+    </dependency>
+    <dependency>
+        <groupId>net.minidev</groupId>
+        <artifactId>json-smart</artifactId>
+        <version>2.2</version>
+    </dependency>
+<!--    <dependency>
+        <groupId>org.apache.tika</groupId>
+        <artifactId>tika-java7</artifactId>
+        <version>1.11</version>
+    </dependency>-->
+</dependencies>
 
 
 
