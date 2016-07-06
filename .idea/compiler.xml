@@ -22,11 +22,15 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
-        <module name="blue-folder-rest" />
+        <module name="blue-folder-application" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="blue-folder-rest" target="1.8" />
+      <module name="assembly-kar" target="1.5" />
+      <module name="blue-folder-application" target="1.8" />
+      <module name="Blue-Folder-Parent" target="1.5" />
+      <module name="blue-folder-rest" target="1.5" />
+      <module name="blue-folder-rest (1)" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<features name="${project.artifactId}-${parent.version}">
+
+    <!--Repositories could possibly cause cyclic dependency issues, be careful adding them here.  It is much better to specify a bundle than a repo.-->
+
+
+    <feature name="Dependencies"
+             description="This feature installs all our required dependencies."
+             version="${parent.version}"  >
+        <feature>kernel-webconsole</feature>
+
+    </feature>
+
+    <feature name="Blue-Folder-Application" version="${parent.version}" description="Installs Blue-Folder">
+        <bundle>mvn:org.apache.shiro/shiro-core/${shiro.version}</bundle>
+        <bundle>mvn:com.google.guava/guava/${guava.version}</bundle>
+        <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.solr-solrj/${servicemix.solrj.version}</bundle>
+        <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.noggit/${servicemix.noggit.version}</bundle>
+        <bundle>mvn:com.google.code.gson/gson/${gson.version}</bundle>
+        <bundle>mvn:org.apache.httpcomponents/httpclient-osgi/${http.client.version}</bundle>
+        <bundle>mvn:org.apache.httpcomponents/httpcore-osgi/${http.core.version}</bundle>
+        <bundle>mvn:org.codehaus.groovy/groovy-all/${groovy-org.codehaus.groovy-groovy-all.version}</bundle>
+        <bundle>mvn:com.jayway.jsonpath/json-path/${json.path.version}</bundle>
+        <bundle>mvn:net.minidev/json-smart/${json.smart.version}</bundle>
+        <bundle>mvn:org.apache.tika/tika-java7/${apache.tika-java7.version}</bundle>
+
+    </feature>
+
+
+
+
+</features>
