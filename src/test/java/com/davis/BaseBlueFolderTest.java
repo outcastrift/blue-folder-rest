@@ -1,10 +1,7 @@
 package com.davis;
 
 import com.davis.bluefolder.deserializers.*;
-import com.davis.bluefolder.service.CustomField;
-import com.davis.bluefolder.service.ExpenseItem;
-import com.davis.bluefolder.service.LaborItem;
-import com.davis.bluefolder.service.LogEntry;
+
 import com.google.gson.*;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
@@ -26,13 +23,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringWriter;
-import java.lang.reflect.Type;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
+
 import java.util.Date;
-import java.util.Locale;
 
 
 /**
@@ -69,8 +61,8 @@ public class BaseBlueFolderTest {
                 .registerTypeAdapter(ExpenseItem.class, new ExpenseItemDeserializer(deserializerGson))
                 .registerTypeAdapter(LaborItem.class, new LaborItemDeserializer(deserializerGson))
                 .registerTypeAdapter(LogEntry.class, new LogEntryDeserializer(deserializerGson))
-
-                .create();*/
+                .create();
+       */
     }
 
 
