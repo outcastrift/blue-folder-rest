@@ -49,19 +49,12 @@ public class GetSingleServiceRequest extends BaseBlueFolderTest {
 
         writeToFile("testGetSingleServiceRequest_Object.json", convertXmlToJson(result));
         String jsonString = convertXmlToJson(result);
-        //  JsonObject jsonObject = gson.fromJson(jsonString,JsonObject.class);
         JsonParser parser = new JsonParser();
-        JsonObject jsonObject = parser.parse(jsonString).getAsJsonObject();
-        JsonElement response = jsonObject.get("response");
-        JsonElement jsonServiceRequest = response.getAsJsonObject().get("serviceRequest");
-        //TODO fix the Labor - Expenses - Log - and CustomFields, whenever I add them it breaks the parser.
+        JsonElement jsonServiceRequest = parser.parse(jsonString).getAsJsonObject().get("response").getAsJsonObject().get("serviceRequest");
         ServiceRequest serviceRequest = gson.fromJson( jsonServiceRequest , ServiceRequest.class);
-
-
-
 
         String s = serviceRequest.getAssignedToUser();
 
-        assertTrue(serviceRequest != null);
+        assertTrue(s.length() > 0);
     }
 }
