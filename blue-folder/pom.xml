@@ -47,6 +47,11 @@
   </properties>
   <dependencies>
     <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+      <version>${http-client-version}</version>
+    </dependency>
+    <dependency>
       <groupId>org.apache.cxf</groupId>
       <artifactId>cxf-rt-frontend-jaxrs</artifactId>
       <version>${cxf-rt-frontend-jaxrs.version}</version>
@@ -62,11 +67,7 @@
       <version>${primary.ddf.version}</version>
     </dependency>
 
-    <dependency>
-      <groupId>org.apache.httpcomponents</groupId>
-      <artifactId>httpclient</artifactId>
-      <version>${http-client-version}</version>
-    </dependency>
+
     <!--  Using the OSGi version here for ease of build and deployment dependency -->
 
     <dependency>
@@ -171,6 +172,17 @@
       <version>${apache.commons-lang3.version}</version>
     </dependency>
 
+    <dependency>
+      <groupId>joda-time</groupId>
+      <artifactId>joda-time</artifactId>
+      <version>2.9.4</version>
+    </dependency>
+
+    <dependency>
+      <groupId>dom4j</groupId>
+      <artifactId>dom4j</artifactId>
+      <version>1.6.1</version>
+    </dependency>
     <!--These are all being embedded via private package this is done to preserve the JVM classpath and prevent
     bundle from importing these methods.  You can still expose them services if you want to .-->
     <!--The majority if not all of these can be moved into the Dependencies section of the KAR if we wanted.
@@ -234,52 +246,44 @@
       <artifactId>jackson-mapper-asl</artifactId>
       <version>${codehaus-jackson-version}</version>
     </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.12</version>
-      <scope>test</scope>
-    </dependency>
 
-    <dependency>
-      <groupId>joda-time</groupId>
-      <artifactId>joda-time</artifactId>
-      <version>2.9.4</version>
-    </dependency>
+
+    <!--TEST-->
+
+
+
     <dependency>
       <groupId>com.mashape.unirest</groupId>
       <artifactId>unirest-java</artifactId>
       <version>1.4.9</version>
-
+    <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.httpcomponents</groupId>
       <artifactId>httpclient</artifactId>
       <version>4.3.6</version>
+      <scope>test</scope>
 
     </dependency>
     <dependency>
       <groupId>org.apache.httpcomponents</groupId>
       <artifactId>httpasyncclient</artifactId>
       <version>4.0.2</version>
+      <scope>test</scope>
 
     </dependency>
     <dependency>
       <groupId>org.apache.httpcomponents</groupId>
       <artifactId>httpmime</artifactId>
       <version>4.3.6</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient-osgi</artifactId>
+      <version>4.5</version>
+    </dependency>
 
-    </dependency>
-    <dependency>
-      <groupId>org.json</groupId>
-      <artifactId>json</artifactId>
-      <version>20140107</version>
-    </dependency>
-    <dependency>
-      <groupId>dom4j</groupId>
-      <artifactId>dom4j</artifactId>
-      <version>1.6.1</version>
-    </dependency>
 
   </dependencies>
 
@@ -302,8 +306,8 @@
         <extensions>true</extensions>
         <configuration>
           <instructions>
-            <Embed-Dependency>httpclient,httpasyncclient,httpmime,joda-time</Embed-Dependency>
-            <Bundle-ClassPath>.,httpclient,httpasyncclient,httpmime,joda-time</Bundle-ClassPath>
+            <Embed-Dependency>joda-time</Embed-Dependency>
+            <Bundle-ClassPath>.,joda-time</Bundle-ClassPath>
             <Bundle-SymbolicName>${project.groupId}.${project.artifactId}
             </Bundle-SymbolicName>
             <Private-Package>
@@ -318,8 +322,7 @@
               org.hamcrest.*,
               com.fasterxml.*,
               com.google.json.*,
-              org.json.*,
-              com.mashape.*
+              org.json.*
             </Private-Package>
             <Import-Package>
               !org.apache.commons.lang3,

@@ -1,11 +1,5 @@
 package com.davis.bluefolder;
 
-import com.davis.bluefolder.deserializers.DateDeserializer;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.exceptions.UnirestException;
 import org.dom4j.DocumentHelper;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.XMLWriter;
@@ -17,46 +11,44 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.XML;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.core.Response;
 import javax.xml.transform.TransformerException;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringWriter;
-import java.util.Date;
 
 /**
  * This software was created for
  * All rights to this software belong to
  * appropriate licenses and restrictions apply.
- * Created by Samuel Davis on 7/5/16.
+ * Created by Samuel Davis on 7/6/16.
  * Class Description
  */
-
-@Path("/")
-@Consumes("application/json")
-public class EndpointRunner {
+public class BlueUtils {
     public static int PRETTY_PRINT_INDENT_FACTOR = 4;
-    public static Gson gson ;
 
+    public static String convertXmlToJson(String xml) {
+        String jsonPrettyPrintString= null;
+        try {
+            JSONObject xmlJSONObj = XML.toJSONObject(xml);
+            jsonPrettyPrintString = xmlJSONObj.toString(PRETTY_PRINT_INDENT_FACTOR);
+        } catch (JSONException je) {
+        }
 
-    public EndpointRunner(){
-        gson = new GsonBuilder()
-                .setPrettyPrinting()
-                .registerTypeAdapter(Date.class,new DateDeserializer())
-                .create();
+        return jsonPrettyPrintString;
     }
 
+    /*public String getResponseString(String url, String body) throws UnirestException {
+        HttpResponse<String> result = Unirest.post(url)
+                .header("Authorization", "Basic NjI1MTUxYmItODA4Yi00NjVmLWE0YTctMTZjOThhNTQ3ZDY2Olg=")
+                .header("Content-Type", "application/x-www-form-urlencoded")
+                .body(body).asString();
 
+        String responseString = result.getBody();
 
-    @GET
-    @Path("/getAllUsers")
-    public Response getAllUsers(){
-        return null;
-    }
+        return responseString;
+    }*/
+
     public String formatXML(String input)
     {
         try
@@ -101,27 +93,5 @@ public class EndpointRunner {
 
         return date;
 
-    }
-
-
-    public String getResponseString(String url, String body) throws UnirestException {
-        HttpResponse<String> result = Unirest.post(url)
-                .header("Authorization", "Basic NjI1MTUxYmItODA4Yi00NjVmLWE0YTctMTZjOThhNTQ3ZDY2Olg=")
-                .header("Content-Type", "application/x-www-form-urlencoded")
-                .body(body).asString();
-
-        String responseString = result.getBody();
-
-        return responseString;
-    }
-    public static String convertXmlToJson(String xml) {
-        String jsonPrettyPrintString= null;
-        try {
-            JSONObject xmlJSONObj = XML.toJSONObject(xml);
-            jsonPrettyPrintString = xmlJSONObj.toString(PRETTY_PRINT_INDENT_FACTOR);
-        } catch (JSONException je) {
-        }
-
-        return jsonPrettyPrintString;
     }
 }
