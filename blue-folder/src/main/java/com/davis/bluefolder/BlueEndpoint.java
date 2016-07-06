@@ -3,11 +3,9 @@ package com.davis.bluefolder;
 import com.davis.bluefolder.deserializers.DateDeserializer;
 import com.davis.bluefolder.jsonapi.JsonApiResponse;
 import com.davis.bluefolder.jsonapi.JsonApiResponseError;
+import com.davis.bluefolder.service.ServiceRequest;
 import com.davis.bluefolder.users.BFUser;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
+import com.google.gson.*;
 
 
 import org.slf4j.Logger;
@@ -53,13 +51,15 @@ public class BlueEndpoint {
 
 
     /**
-     * If no query parameters are supplied it searches last 2 weeks.
+     * If no temporal query parameters are supplied it searches last 2 weeks.
+     * openOnly = true only gives open cases false gives them all
      * **/
     @GET
-    @Path("/getServiceRequestsDate")
+    @Path("/getServiceRequests")
     public Response getServiceRequestsWithinDate(@Context UriInfo requestUriInfo,
                                                  @QueryParam("start") String start,
-                                                 @QueryParam("end") String end) throws Exception {
+                                                 @QueryParam("end") String end,
+                                                 @QueryParam("openOnly") String openOnly) throws Exception {
 
         String dateRange = null;
 
@@ -72,23 +72,45 @@ public class BlueEndpoint {
         }else{
           dateRange=  BlueUtils.contructDatesForSearch(null,null);
         }
-
-        String url = "https://app.bluefolder.com/api/1.0/serviceRequests/list.aspx";
-
-        String serviceRequests = blueRestService.getResponseString(url,
-                "<request>" +
+      String searchString = null;
+        if(openOnly != null && !openOnly.trim().equalsIgnoreCase("")){
+            if(openOnly.equalsIgnoreCase("true")){
+                searchString ="<request>" +
+                        "<serviceRequestList>" +
+                        "<listType>basic</listType>" +
+                        dateRange +
+                        "<status>open</status>" +
+                        "</serviceRequestList>" +
+                        "</request>";
+            }else{
+                searchString ="<request>" +
                         "<serviceRequestList>" +
                         "<listType>basic</listType>" +
                         dateRange +
                         "</serviceRequestList>" +
-                        "</request>");
+                        "</request>";
+            }
+        }else{
+            searchString ="<request>" +
+                    "<serviceRequestList>" +
+                    "<listType>basic</listType>" +
+                    dateRange +
+                    "</serviceRequestList>" +
+                    "</request>";
+        }
+
+        String url = "https://app.bluefolder.com/api/1.0/serviceRequests/list.aspx";
+
+        String serviceRequests = blueRestService.getResponseString(url,
+               searchString);
 
 
         String jsonString = BlueUtils.convertXmlToJson(serviceRequests);
+        JsonElement jsonPrimitive = gson.fromJson(jsonString,JsonElement.class);
 
         Response response =null;
         try {
-            response = generateResponseFromObject(jsonString);
+            response = generateResponseFromObject(jsonPrimitive);
         } catch (EndpointException e) {
             return generateErrorResponse(500,"Server Error","There was a error handling the request.");
 
@@ -109,10 +131,103 @@ public class BlueEndpoint {
                         "</request>"
         );
         String jsonString = BlueUtils.convertXmlToJson(result);
+        JsonElement jsonPrimitive = gson.fromJson(jsonString,JsonElement.class);
 
         Response response =null;
         try {
-            response = generateResponseFromObject(jsonString);
+            response = generateResponseFromObject(jsonPrimitive);
+        } catch (EndpointException e) {
+            return generateErrorResponse(500,"Server Error","There was a error handling the request.");
+
+        }
+
+        return  response;
+    }
+
+
+
+
+    @GET
+    @Path("/getServiceRequestByID")
+    public Response getServiceRequestByID(@Context UriInfo requestUriInfo,
+                                @QueryParam("serviceRequestID") String serviceRequestID) throws Exception {
+
+        if(serviceRequestID == null || serviceRequestID.trim().equalsIgnoreCase("")){
+            return generateErrorResponse(400,"No ID Supplied","No service request ID was supplied to the endpoint.");
+
+        }
+
+        String url = "https://app.bluefolder.com/api/1.0/serviceRequests/get.aspx";
+        String result = blueRestService.getResponseString(url,
+                "<request>" +
+                        "<serviceRequestID>"+serviceRequestID+"</serviceRequestID>" +
+                        "</request>");
+
+
+        String jsonString =BlueUtils.convertXmlToJson(result);
+        JsonElement jsonPrimitive = gson.fromJson(jsonString,JsonElement.class);
+        Response response =null;
+        try {
+            response = generateResponseFromObject(jsonPrimitive);
+        } catch (EndpointException e) {
+            return generateErrorResponse(500,"Server Error","There was a error handling the request.");
+
+        }
+
+        return  response;
+    }
+    @GET
+    @Path("/getServiceRequestHistory")
+    public Response getServiceRequestHistory(@Context UriInfo requestUriInfo,
+                                          @QueryParam("serviceRequestID") String historyID) throws Exception {
+
+        if(historyID == null || historyID.trim().equalsIgnoreCase("")){
+            return generateErrorResponse(400,"No ID Supplied","No service request ID was supplied to the endpoint.");
+
+        }
+
+        String url = "https://app.bluefolder.com/api/1.0/serviceRequests/getHistory.aspx";
+        String result = blueRestService.getResponseString(url,
+                "<request>" +
+                        "<serviceRequestID>"+historyID+"</serviceRequestID>" +
+                        "</request>");
+
+
+        String jsonString =BlueUtils.convertXmlToJson(result);
+        JsonElement jsonPrimitive = gson.fromJson(jsonString,JsonElement.class);
+        Response response =null;
+        try {
+            response = generateResponseFromObject(jsonPrimitive);
+        } catch (EndpointException e) {
+            return generateErrorResponse(500,"Server Error","There was a error handling the request.");
+
+        }
+
+        return  response;
+    }
+    @GET
+    @Path("/getServiceRequestFiles")
+    public Response getServiceRequestFiles(@Context UriInfo requestUriInfo,
+                                             @QueryParam("serviceRequestID") String serviceID) throws Exception {
+
+        if(serviceID == null || serviceID.trim().equalsIgnoreCase("")){
+            return generateErrorResponse(400,"No ID Supplied","No service request ID was supplied to the endpoint.");
+
+        }
+
+        String url = "https://app.bluefolder.com/api/1.0/serviceRequests/getFiles.aspx";
+        String result = blueRestService.getResponseString(url,
+                "<request>" +
+                        "<serviceRequestID>"+serviceID+"</serviceRequestID>" +
+                        "</request>");
+
+
+        String jsonString =BlueUtils.convertXmlToJson(result);
+        JsonElement jsonPrimitive = gson.fromJson(jsonString,JsonElement.class);
+
+        Response response =null;
+        try {
+            response = generateResponseFromObject(jsonPrimitive);
         } catch (EndpointException e) {
             return generateErrorResponse(500,"Server Error","There was a error handling the request.");
 
