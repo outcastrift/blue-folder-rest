@@ -68,8 +68,8 @@
     </properties>
 
     <modules>
-        <module>assembly-kar</module>
         <module>blue-folder</module>
+        <module>assembly-kar</module>
 
     </modules>
 </project>
