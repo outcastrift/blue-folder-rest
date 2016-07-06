@@ -1,7 +1,12 @@
 package com.davis.serviceRequest;
 
 import com.davis.BaseBlueFolderTest;
+import com.davis.bluefolder.service.ServiceRequest;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import org.junit.Test;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -36,7 +41,7 @@ public class GetAllServiceRequest extends BaseBlueFolderTest {
     }
 
     //41 MB in JSON
-    //@Test
+    @Test
     public void testGetAllServiceRequests_JSON() throws UnirestException, IOException, ParserConfigurationException, SAXException, TransformerException {
         String url = "https://app.bluefolder.com/api/1.0/serviceRequests/list.aspx";
         String serviceRequests = getResponseString(url,
@@ -47,6 +52,25 @@ public class GetAllServiceRequest extends BaseBlueFolderTest {
                         "</request>");
         writeToFile("allServiceRequests.json", convertXmlToJson(serviceRequests));
 
+        assertTrue(serviceRequests.length() > 0);
+
+    }
+    //NOT WORKING
+    public void testGetAllServiceRequests_Object() throws UnirestException, IOException, ParserConfigurationException, SAXException, TransformerException {
+        String url = "https://app.bluefolder.com/api/1.0/serviceRequests/list.aspx";
+        String serviceRequests = getResponseString(url,
+                "<request>" +
+                        "<serviceRequestList>" +
+                        "<listType>basic</listType>" +
+                        "</serviceRequestList>" +
+                        "</request>");
+       // writeToFile("allServiceRequestsObject.json", convertXmlToJson(serviceRequests));
+        String jsonString = convertXmlToJson(serviceRequests);
+        JsonParser parser = new JsonParser();
+        JsonArray jsonServiceRequest = parser.parse(jsonString).getAsJsonObject().get("response").getAsJsonObject()
+                .get("serviceRequestList").getAsJsonObject()
+                .get("serviceRequest").getAsJsonArray();
+        ServiceRequest[] serviceRequest = gson.fromJson( jsonServiceRequest , ServiceRequest[].class);
         assertTrue(serviceRequests.length() > 0);
 
     }

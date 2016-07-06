@@ -78,13 +78,28 @@ public class BlueUtils {
         fileWriter.flush();
     }
 
-    public String contructDatesForSearch() {
+    public static String contructDatesForSearch(String start, String end) {
+        DateTimeFormatter fmt = DateTimeFormat.forPattern("MM-dd-yyyy hh:mma");
         DateTimeZone timeZone = DateTimeZone.forID("America/New_York"); // Specify or else the JVM's default will apply.
         DateTime dateTime = new DateTime(new java.util.Date(), timeZone); // Today's Date
         DateTime pastDate = dateTime.minusDays(14); // 2 weeks ago
-        DateTimeFormatter fmt = DateTimeFormat.forPattern("MM-dd-yyyy hh:mma");
-        String endDate = fmt.print(dateTime);
-        String startDate = fmt.print(pastDate);
+
+        String endDate = null;
+        String startDate = null;
+        if(start != null && !start.trim().equalsIgnoreCase("")){
+            if(end != null && !end.trim().equalsIgnoreCase("")){
+                    startDate = fmt.parseDateTime(start).toString();
+                    endDate=fmt.parseDateTime(end).toString();
+            }else{
+                endDate = fmt.print(dateTime);
+                startDate = fmt.print(pastDate);
+            }
+        }else{
+            endDate = fmt.print(dateTime);
+            startDate = fmt.print(pastDate);
+        }
+
+
         //dateTimeClosed
         String date = " <dateRange dateField=\"dateTimeCreated\">" +
                 "<startDate>" + startDate + "</startDate>" +

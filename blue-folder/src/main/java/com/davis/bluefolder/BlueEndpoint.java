@@ -51,6 +51,77 @@ public class BlueEndpoint {
 
 
 
+
+    /**
+     * If no query parameters are supplied it searches last 2 weeks.
+     * **/
+    @GET
+    @Path("/getServiceRequestsDate")
+    public Response getServiceRequestsWithinDate(@Context UriInfo requestUriInfo,
+                                                 @QueryParam("start") String start,
+                                                 @QueryParam("end") String end) throws Exception {
+
+        String dateRange = null;
+
+        if(start != null && !start.trim().equalsIgnoreCase("")){
+            if(end != null && !end.trim().equalsIgnoreCase("")){
+                BlueUtils.contructDatesForSearch(start,end);
+            }else{
+               dateRange= BlueUtils.contructDatesForSearch(null,null);
+            }
+        }else{
+          dateRange=  BlueUtils.contructDatesForSearch(null,null);
+        }
+
+        String url = "https://app.bluefolder.com/api/1.0/serviceRequests/list.aspx";
+
+        String serviceRequests = blueRestService.getResponseString(url,
+                "<request>" +
+                        "<serviceRequestList>" +
+                        "<listType>basic</listType>" +
+                        dateRange +
+                        "</serviceRequestList>" +
+                        "</request>");
+
+
+        String jsonString = BlueUtils.convertXmlToJson(serviceRequests);
+
+        Response response =null;
+        try {
+            response = generateResponseFromObject(jsonString);
+        } catch (EndpointException e) {
+            return generateErrorResponse(500,"Server Error","There was a error handling the request.");
+
+        }
+
+        return  response;
+    }
+    @GET
+    @Path("/getAllServiceRequests")
+    public Response getAllServiceRequests(@Context UriInfo requestUriInfo) throws Exception {
+
+        String url = "https://app.bluefolder.com/api/1.0/serviceRequests/list.aspx";
+        String result = blueRestService.getResponseString(url,
+                "<request>" +
+                        "<serviceRequestList>" +
+                        "<listType>basic</listType>" +
+                        "</serviceRequestList>" +
+                        "</request>"
+        );
+        String jsonString = BlueUtils.convertXmlToJson(result);
+
+        Response response =null;
+        try {
+            response = generateResponseFromObject(jsonString);
+        } catch (EndpointException e) {
+            return generateErrorResponse(500,"Server Error","There was a error handling the request.");
+
+        }
+
+        return  response;
+    }
+
+
     @GET
     @Path("/getAllUsers")
     public Response getAllUsers(@Context UriInfo requestUriInfo) throws Exception {
