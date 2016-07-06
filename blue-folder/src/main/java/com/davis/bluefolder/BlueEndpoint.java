@@ -2,6 +2,7 @@ package com.davis.bluefolder;
 
 import com.davis.bluefolder.deserializers.DateDeserializer;
 import com.davis.bluefolder.jsonapi.JsonApiResponse;
+import com.davis.bluefolder.jsonapi.JsonApiResponseError;
 import com.davis.bluefolder.users.BFUser;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -12,16 +13,16 @@ import com.google.gson.JsonObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * This software was created for
@@ -65,26 +66,90 @@ public class BlueEndpoint {
         JsonObject jsonObject = gson.fromJson(jsonString,JsonObject.class);
         JsonArray jsonArray = jsonObject.getAsJsonObject("response").getAsJsonArray("user");
         BFUser[] userList = gson.fromJson(jsonArray,BFUser[].class);
-
-
+        Response response =null;
         try {
-            JsonApiResponse response = new JsonApiResponse();
-            Response.ResponseBuilder builder = null;
-            String date = LocalDateTime.now().toString();
-            response.setData(userList);
-            builder = Response.ok(response.getSanitizedJson(), MediaType.APPLICATION_JSON);
+            response = generateResponseFromObject(userList);
+        } catch (EndpointException e) {
+            return generateErrorResponse(500,"Server Error","There was a error handling the request.");
 
-            return builder.build();
-
-        } catch (Exception e) {
-            throw new EndpointException("There was a error handling the request.",
-                    "There was a error handling the request.", Response.Status.INTERNAL_SERVER_ERROR);
         }
+
+        return  response;
     }
 
 
 
+    //Example request
+    //https://localhost:8993/services/blue/isUserValid?user=6fc5524d-87db-4ce1-a3e6-90918accc231
+    @GET
+    @Path("/isUserValid")
+    public Response isUserValid(@Context UriInfo requestUriInfo,
+                                @QueryParam("user") String userID){
 
+
+        if(userID == null || userID.trim().equalsIgnoreCase("")){
+            return generateErrorResponse(400,"No User Supplied","No user ID was supplied to the endpoint.");
+
+        }
+
+        String url = "https://app.bluefolder.com/api/1.0/users/list.aspx";
+        String result = blueRestService.getResponseString(url,
+                "<request>" +
+                        "<userList>" +
+                        "<listType>full</listType>" +
+                        "</userList>" +
+                        "</request>"
+        );
+        String jsonString = BlueUtils.convertXmlToJson(result);
+        JsonObject jsonObject = gson.fromJson(jsonString,JsonObject.class);
+        JsonArray  jsonArray = jsonObject.getAsJsonObject("response").getAsJsonArray("user");
+        BFUser[] userList = gson.fromJson(jsonArray,BFUser[].class);
+        BFUser targetUser = null;
+        for(BFUser bfUser : userList){
+            if(bfUser.getUserName().equalsIgnoreCase(userID)){
+                targetUser =bfUser;
+            }
+        }
+        if(targetUser == null){
+            return generateErrorResponse(204,"No User","The user is not within the Blue Folder database");
+
+        }
+        Response response =null;
+        try {
+            response = generateResponseFromObject(targetUser);
+        } catch (EndpointException e) {
+            return generateErrorResponse(500,"Server Error","There was a error handling the request.");
+
+
+        }
+
+        return  response;
+
+    }
+
+
+    private Response generateResponseFromObject(Object o) throws EndpointException{
+
+            JsonApiResponse response = new JsonApiResponse();
+            Response.ResponseBuilder builder = null;
+            response.setData(o);
+            builder = Response.ok(response.getSanitizedJson(), MediaType.APPLICATION_JSON);
+
+            return builder.build();
+
+
+    }
+    private Response generateErrorResponse(int errorCode, String title, String explanation){
+        JsonApiResponse response = new JsonApiResponse();
+        Response.ResponseBuilder builder = null;
+        JsonApiResponseError jsonApiResponseError = new JsonApiResponseError(errorCode,title,explanation);
+        List<JsonApiResponseError> errors = new ArrayList<JsonApiResponseError>();
+        errors.add(jsonApiResponseError);
+        response.setErrors(errors);
+        builder = Response.ok(response.getSanitizedJson(), MediaType.APPLICATION_JSON);
+
+        return builder.build();
+    }
 
 
 
