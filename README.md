@@ -15,4 +15,5 @@
     
     Now copy the built assembly-kar-1.0.0.kar file into the deploy directory of the ddf server
     It should install without any effort from you.
+    Go to https://localhost:8993/services   then click on the one for the blue endpoint to see the WADL
     
