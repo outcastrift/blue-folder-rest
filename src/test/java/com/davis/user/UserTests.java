@@ -1,5 +1,6 @@
-package com.davis;
+package com.davis.user;
 
+import com.davis.BaseBlueFolderTest;
 import com.davis.bluefolder.users.BFUser;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;

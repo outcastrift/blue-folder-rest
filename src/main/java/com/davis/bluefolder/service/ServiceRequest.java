@@ -838,14 +838,14 @@ public class ServiceRequest {
         }
     }
     private class Labor{
-        private ArrayList<LaborItem> laborItem;
+        private LaborItem laborItem;
 
 
-        public ArrayList<LaborItem> getLaborItem() {
+        public LaborItem getLaborItem() {
             return laborItem;
         }
 
-        public void setLaborItem(ArrayList<LaborItem> laborItem) {
+        public void setLaborItem(LaborItem laborItem) {
             this.laborItem = laborItem;
         }
 
@@ -1083,13 +1083,13 @@ public class ServiceRequest {
         }
     }
     private class Expenses{
-        private ArrayList<ExpenseItem> expenseItem ;
+        private ExpenseItem expenseItem ;
 
-        public ArrayList<ExpenseItem> getExpenseItem() {
+        public ExpenseItem getExpenseItem() {
             return expenseItem;
         }
 
-        public void setExpenseItem(ArrayList<ExpenseItem> expenseItem) {
+        public void setExpenseItem(ExpenseItem expenseItem) {
             this.expenseItem = expenseItem;
         }
         private class ExpenseItem{

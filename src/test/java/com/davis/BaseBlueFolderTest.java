@@ -36,16 +36,7 @@ import java.util.Date;
  */
 public class BaseBlueFolderTest {
     public static int PRETTY_PRINT_INDENT_FACTOR = 4;
-    private static final String[] DATE_FORMATS = new String[] {
-            "MMM dd, yyyy HH:mm:ss",
-            "MMM dd, yyyy",
-            "MM-dd-yyyy hh:mma",
-            "yyyy-MM-dd'T'HH:mm:ss:SSS",
-            "yyyy-MM-dd'T'HH:mm:ss.SSSXXX",
-            "yyyy-MM-dd'T'HH:mm:ss:SSSXXX",
-            "yyyy-MM-dd'T'HH:mm:ss.SSS",
-            "yyyy-MM-dd'T'HH:mm:ss"
-    };
+
 
     public static Gson gson ;
     @Before
@@ -54,15 +45,6 @@ public class BaseBlueFolderTest {
                 .setPrettyPrinting()
                 .registerTypeAdapter(Date.class,new DateDeserializer())
                 .create();
-
-       /* gson = new GsonBuilder().setPrettyPrinting()
-                .registerTypeAdapter(Date.class, new DateDeserializer())
-                .registerTypeAdapter(CustomField.class, new CustomFieldDeserializer(deserializerGson))
-                .registerTypeAdapter(ExpenseItem.class, new ExpenseItemDeserializer(deserializerGson))
-                .registerTypeAdapter(LaborItem.class, new LaborItemDeserializer(deserializerGson))
-                .registerTypeAdapter(LogEntry.class, new LogEntryDeserializer(deserializerGson))
-                .create();
-       */
     }
 
 
