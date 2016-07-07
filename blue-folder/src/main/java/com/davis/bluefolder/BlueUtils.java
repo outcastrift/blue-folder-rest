@@ -37,18 +37,7 @@ public class BlueUtils {
 
         return jsonPrettyPrintString;
     }
-
-    /*public String getResponseString(String url, String body) throws UnirestException {
-        HttpResponse<String> result = Unirest.post(url)
-                .header("Authorization", "Basic NjI1MTUxYmItODA4Yi00NjVmLWE0YTctMTZjOThhNTQ3ZDY2Olg=")
-                .header("Content-Type", "application/x-www-form-urlencoded")
-                .body(body).asString();
-
-        String responseString = result.getBody();
-
-        return responseString;
-    }*/
-
+    
     public String formatXML(String input)
     {
         try
