@@ -27,7 +27,7 @@ public final class CustomOkHttpClient {
     X509TrustManager trustManager;
     SSLSocketFactory sslSocketFactory;
     try {
-      trustManager = trustManagerForCertificates(CustomOkHttpClient.class.getResourceAsStream("bluefolder.com.crt"));
+      trustManager = trustManagerForCertificates(CustomOkHttpClient.class.getClassLoader().getResourceAsStream("bluefolder.com.crt"));
       SSLContext sslContext = SSLContext.getInstance("TLS");
       sslContext.init(null, new TrustManager[] { trustManager }, null);
       sslSocketFactory = sslContext.getSocketFactory();
