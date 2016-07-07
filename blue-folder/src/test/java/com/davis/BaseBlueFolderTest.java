@@ -3,9 +3,8 @@ package com.davis;
 import com.davis.bluefolder.deserializers.*;
 
 import com.google.gson.*;
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.exceptions.UnirestException;
+
+import okhttp3.*;
 import org.dom4j.DocumentHelper;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.XMLWriter;
@@ -25,6 +24,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -36,6 +36,8 @@ import java.util.Date;
  */
 public class BaseBlueFolderTest {
     public static int PRETTY_PRINT_INDENT_FACTOR = 4;
+    private final MediaType MEDIA_TYPE = MediaType.parse("text/xml; charset=utf-8");
+    private static OkHttpClient client ;
 
 
     public static Gson gson ;
@@ -45,6 +47,12 @@ public class BaseBlueFolderTest {
                 .setPrettyPrinting()
                 .registerTypeAdapter(Date.class,new DateDeserializer())
                 .create();
+        client = new OkHttpClient()
+                .newBuilder()
+                .connectTimeout(15,TimeUnit.SECONDS)
+                .readTimeout(15, TimeUnit.SECONDS).build();
+
+
     }
 
 
@@ -95,16 +103,24 @@ public class BaseBlueFolderTest {
     }
 
 
-    public String getResponseString(String url, String body) throws UnirestException {
-        HttpResponse<String> result = Unirest.post(url)
+    public String getResponseString(String urlToCall, String requestBody) throws Exception {
+
+
+        Request request = new Request.Builder()
+                .url(urlToCall)
+                .post(RequestBody.create(MEDIA_TYPE, requestBody))
                 .header("Authorization", "Basic NjI1MTUxYmItODA4Yi00NjVmLWE0YTctMTZjOThhNTQ3ZDY2Olg=")
                 .header("Content-Type", "application/x-www-form-urlencoded")
-                .body(body).asString();
+                .build();
 
-        String responseString = result.getBody();
-
-        return responseString;
+        Response response = client.newCall(request).execute();
+        if (!response.isSuccessful()){
+            throw new IOException("Unexpected code " + response);
+        }
+        return response.body().string();
     }
+
+
     public static String convertXmlToJson(String xml) {
         String jsonPrettyPrintString= null;
         try {

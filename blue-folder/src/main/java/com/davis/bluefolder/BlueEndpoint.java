@@ -239,7 +239,7 @@ public class BlueEndpoint {
 
     @GET
     @Path("/getAllUsers")
-    public Response getAllUsers(@Context UriInfo requestUriInfo) throws Exception {
+    public Response getAllUsers(@Context UriInfo requestUriInfo) throws Exception{
         String url = "https://app.bluefolder.com/api/1.0/users/list.aspx";
         String result = blueRestService.getResponseString(url,
                 "<request>" +
@@ -270,7 +270,7 @@ public class BlueEndpoint {
     @GET
     @Path("/isUserValid")
     public Response isUserValid(@Context UriInfo requestUriInfo,
-                                @QueryParam("user") String userID){
+                                @QueryParam("user") String userID) throws Exception{
 
 
         if(userID == null || userID.trim().equalsIgnoreCase("")){
@@ -279,13 +279,18 @@ public class BlueEndpoint {
         }
 
         String url = "https://app.bluefolder.com/api/1.0/users/list.aspx";
-        String result = blueRestService.getResponseString(url,
-                "<request>" +
-                        "<userList>" +
-                        "<listType>full</listType>" +
-                        "</userList>" +
-                        "</request>"
-        );
+        String result = null;
+        try {
+            result = blueRestService.getResponseString(url,
+                    "<request>" +
+                            "<userList>" +
+                            "<listType>full</listType>" +
+                            "</userList>" +
+                            "</request>"
+            );
+        } catch (Exception e) {
+            logger.error("isUserValid request failed {}", e.getMessage());
+        }
         String jsonString = BlueUtils.convertXmlToJson(result);
         JsonObject jsonObject = gson.fromJson(jsonString,JsonObject.class);
         JsonArray  jsonArray = jsonObject.getAsJsonObject("response").getAsJsonArray("user");

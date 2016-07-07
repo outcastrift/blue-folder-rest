@@ -3,7 +3,6 @@ package com.davis.serviceRequest;
 import com.davis.BaseBlueFolderTest;
 import com.davis.bluefolder.service.ServiceRequest;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.junit.Test;
 

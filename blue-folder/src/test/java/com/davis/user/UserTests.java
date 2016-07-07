@@ -77,7 +77,7 @@ public class UserTests extends BaseBlueFolderTest {
                         "</request>"
         );
         String jsonString = convertXmlToJson(result);
-        writeToFile("allUsersFull.json",convertXmlToJson(result));
+        writeToFile("allUsersFull.json",jsonString);
         JsonObject jsonObject = gson.fromJson(jsonString,JsonObject.class);
         JsonArray  jsonArray = jsonObject.getAsJsonObject("response").getAsJsonArray("user");
         BFUser[] userList = gson.fromJson(jsonArray,BFUser[].class);

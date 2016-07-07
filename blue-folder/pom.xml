@@ -15,6 +15,8 @@
 
     <dependencies>
         <!--REGULAR DEPENDENCIES-->
+
+
         <dependency>
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
@@ -23,8 +25,15 @@
         <dependency>
             <groupId>com.squareup.okhttp3</groupId>
             <artifactId>okhttp</artifactId>
-            <version>3.0.0</version>
+            <version>3.3.1</version>
         </dependency>
+        <!--Required for OkHttp-->
+        <dependency>
+            <groupId>com.squareup.okio</groupId>
+            <artifactId>okio</artifactId>
+            <version>1.9.0</version>
+        </dependency>
+
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
@@ -126,25 +135,7 @@
             <scope>compile</scope>
             <version>${json.sanitizer.version}</version>
         </dependency>
-        <dependency>
-            <groupId>com.jayway.jsonpath</groupId>
-            <artifactId>json-path</artifactId>
-            <scope>compile</scope>
-            <version>${json.path.version}</version>
-        </dependency>
-        <dependency>
-            <!-- runtime dependency for json-path above -->
-            <groupId>net.minidev</groupId>
-            <artifactId>json-smart</artifactId>
-            <scope>compile</scope>
-            <version>${json.smart.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest-all</artifactId>
-            <scope>compile</scope>
-            <version>${hamcrest-all.version}</version>
-        </dependency>
+
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
@@ -162,12 +153,6 @@
 
         <!-- Testing -->
         <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <scope>test</scope>
-            <version>${mockito.version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-bundle-jaxrs</artifactId>
             <scope>test</scope>
@@ -179,30 +164,7 @@
             <scope>test</scope>
             <version>${junit.version}</version>
         </dependency>
-        <dependency>
-            <groupId>com.mashape.unirest</groupId>
-            <artifactId>unirest-java</artifactId>
-            <version>1.4.9</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
-            <version>4.3.6</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpasyncclient</artifactId>
-            <version>4.0.2</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpmime</artifactId>
-            <version>4.3.6</version>
-            <scope>test</scope>
-        </dependency>
+
 
     </dependencies>
 
@@ -225,8 +187,8 @@
                 <extensions>true</extensions>
                 <configuration>
                     <instructions>
-                        <Embed-Dependency>joda-time</Embed-Dependency>
-                        <Bundle-ClassPath>.,joda-time</Bundle-ClassPath>
+                        <Embed-Dependency>joda-time,okhttp,okio</Embed-Dependency>
+                        <Bundle-ClassPath>.,joda-time,okhttp,okio</Bundle-ClassPath>
                         <Bundle-SymbolicName>${project.groupId}.${project.artifactId}
                         </Bundle-SymbolicName>
                         <Private-Package>

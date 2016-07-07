@@ -1,13 +1,7 @@
 package com.davis.serviceRequest;
 
 import com.davis.BaseBlueFolderTest;
-import com.mashape.unirest.http.exceptions.UnirestException;
 import org.junit.Test;
-import org.xml.sax.SAXException;
-
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
-import java.io.IOException;
 
 import static org.junit.Assert.assertTrue;
 
@@ -22,7 +16,7 @@ public class GetServiceRequestWithinDate extends BaseBlueFolderTest {
 
 
     @Test
-    public void testGetServiceRequestsWithinDate_XML() throws UnirestException, IOException, ParserConfigurationException, SAXException, TransformerException {
+    public void testGetServiceRequestsWithinDate_XML() throws Exception {
         String url = "https://app.bluefolder.com/api/1.0/serviceRequests/list.aspx";
 
         String serviceRequests = getResponseString(url,
@@ -39,7 +33,7 @@ public class GetServiceRequestWithinDate extends BaseBlueFolderTest {
     }
 
     @Test
-    public void testGetServiceRequestsWithinDate_JSON() throws UnirestException, IOException, ParserConfigurationException, SAXException, TransformerException {
+    public void testGetServiceRequestsWithinDate_JSON() throws Exception {
         String url = "https://app.bluefolder.com/api/1.0/serviceRequests/list.aspx";
 
         String serviceRequests = getResponseString(url,

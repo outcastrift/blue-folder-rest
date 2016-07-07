@@ -3,15 +3,9 @@ package com.davis.serviceRequest;
 import com.davis.BaseBlueFolderTest;
 import com.davis.bluefolder.service.ServiceRequest;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
-import com.mashape.unirest.http.exceptions.UnirestException;
 import org.junit.Test;
-import org.xml.sax.SAXException;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
-import java.io.IOException;
 
 import static org.junit.Assert.assertTrue;
 
@@ -26,7 +20,7 @@ public class GetAllServiceRequest extends BaseBlueFolderTest {
 
     //this thing returns like 48 MB
     //@Test
-    public void testGetAllServiceRequests_XML() throws UnirestException, IOException, ParserConfigurationException, SAXException, TransformerException {
+    public void testGetAllServiceRequests_XML() throws Exception {
         String url = "https://app.bluefolder.com/api/1.0/serviceRequests/list.aspx";
         String serviceRequests = getResponseString(url,
                 "<request>" +
@@ -41,8 +35,8 @@ public class GetAllServiceRequest extends BaseBlueFolderTest {
     }
 
     //41 MB in JSON
-    @Test
-    public void testGetAllServiceRequests_JSON() throws UnirestException, IOException, ParserConfigurationException, SAXException, TransformerException {
+    //@Test
+    public void testGetAllServiceRequests_JSON() throws  Exception{
         String url = "https://app.bluefolder.com/api/1.0/serviceRequests/list.aspx";
         String serviceRequests = getResponseString(url,
                 "<request>" +
@@ -56,7 +50,7 @@ public class GetAllServiceRequest extends BaseBlueFolderTest {
 
     }
     //NOT WORKING
-    public void testGetAllServiceRequests_Object() throws UnirestException, IOException, ParserConfigurationException, SAXException, TransformerException {
+    public void testGetAllServiceRequests_Object() throws  Exception {
         String url = "https://app.bluefolder.com/api/1.0/serviceRequests/list.aspx";
         String serviceRequests = getResponseString(url,
                 "<request>" +
