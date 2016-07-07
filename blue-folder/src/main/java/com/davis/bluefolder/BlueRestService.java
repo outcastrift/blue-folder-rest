@@ -39,8 +39,6 @@ public class BlueRestService {
 
 
     public String getResponseString(String urlToCall, String requestBody){
-
-
         Response response = given()
                 .config(newConfig().sslConfig(new SSLConfig()
                         .relaxedHTTPSValidation()
