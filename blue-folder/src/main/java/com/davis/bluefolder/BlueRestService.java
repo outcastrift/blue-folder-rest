@@ -17,17 +17,18 @@ public class BlueRestService {
     private static final Logger logger = LoggerFactory.getLogger(BlueRestService.class);
 
     protected static boolean serverUp = false;
-    private static OkHttpClient client = new OkHttpClient();
+    private static OkHttpClient client;
+
     public static OkHttpClient getOkHttpClient() {
         return client;
     }
-    private final MediaType MEDIA_TYPE = MediaType.parse("application/x-www-form-urlencoded");
+    private final MediaType MEDIA_TYPE = MediaType.parse("text/xml; charset=utf-8");
     public static boolean isServerUp() {
         return serverUp;
     }
 
     public BlueRestService(){
-
+        client = new CustomOkHttpClient().getClient();
     }
 
 

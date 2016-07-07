@@ -6,8 +6,8 @@
         <additionalProperties>
           <property key="Embed-Dependency" value="joda-time,okhttp,okio" />
           <property key="Bundle-ClassPath" value=".,joda-time,okhttp,okio,joda-time-2.9.4.jar,okhttp-3.3.1.jar,okio-1.9.0.jar" />
-          <property key="Private-Package" value="org.apache.commons.lang3, org.apache.commons.lang3.exception,org.apache.commons.lang3.text,org.apache.commons.lang3.text.translate,com.davis.bluefolder.*,com.google.gson.*,com.jayway.restassured.*,com.jayway.jsonpath.*,org.codehaus.jackson.*,org.hamcrest.*,com.fasterxml.*,com.google.json.*,org.json.*" />
-          <property key="Import-Package" value="*;resolution=:&quot;optional&quot;" />
+          <property key="Private-Package" value="org.apache.commons.lang3.*,com.davis.bluefolder.*,com.google.gson.*,com.jayway.restassured.*,com.jayway.jsonpath.*,org.codehaus.jackson.*,org.hamcrest.*,com.fasterxml.*,com.google.json.*,org.json.*" />
+          <property key="Import-Package" value="*;resolution:=&quot;optional&quot;" />
           <property key="Export-Package" value="com.davis.bluefolder.*" />
           <property key="Bundle-Name" value="Blue Folder" />
           <property key="Include-Resource" value="joda-time-2.9.4.jar=$MAVEN_REPOSITORY$/joda-time/joda-time/2.9.4/joda-time-2.9.4.jar,okhttp-3.3.1.jar=$MAVEN_REPOSITORY$/com/squareup/okhttp3/okhttp/3.3.1/okhttp-3.3.1.jar,okio-1.9.0.jar=$MAVEN_REPOSITORY$/com/squareup/okio/okio/1.9.0/okio-1.9.0.jar" />

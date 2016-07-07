@@ -37,7 +37,7 @@ public class BlueUtils {
 
         return jsonPrettyPrintString;
     }
-    
+
     public String formatXML(String input)
     {
         try
