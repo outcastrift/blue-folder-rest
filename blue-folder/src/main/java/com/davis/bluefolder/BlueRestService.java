@@ -28,7 +28,7 @@ public class BlueRestService {
     }
 
     public BlueRestService(){
-        client = new TrustSpecifiedOkHttpClient(new String[]{"bluefolder.com.crt"}).getClient();
+        client = new TrustSpecifiedOkHttpClient(new String[]{"bluefolder.com.crt"},15,15).getClient();
     }
 
 

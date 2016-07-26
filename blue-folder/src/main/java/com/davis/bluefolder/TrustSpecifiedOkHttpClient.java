@@ -41,7 +41,7 @@ public final class TrustSpecifiedOkHttpClient {
    * @param pathToJarResources a list of absolute paths leading to jar resources
    * These certificates must be in PEM
    * **/
-  public TrustSpecifiedOkHttpClient(String[] pathToJarResources) {
+  public TrustSpecifiedOkHttpClient(String[] pathToJarResources,int connectTimeout, int readTimeout) {
     X509TrustManager trustManager;
     SSLSocketFactory sslSocketFactory;
 
@@ -59,19 +59,19 @@ public final class TrustSpecifiedOkHttpClient {
       throw new RuntimeException(e);
     }
 
-    client = new OkHttpClient
-        .Builder()
-        .connectTimeout(15, TimeUnit.SECONDS)
-        .readTimeout(15, TimeUnit.SECONDS)
-        .sslSocketFactory(sslSocketFactory, trustManager)
-        .build();
+    OkHttpClient.Builder builder = new OkHttpClient.Builder();
+    builder.connectTimeout(connectTimeout, TimeUnit.SECONDS);
+    builder.readTimeout(readTimeout, TimeUnit.SECONDS);
+    builder.sslSocketFactory(sslSocketFactory, trustManager);
+
+    client = builder.build();
   }
 
   /**
    * Creates a custom okhttp client where all certificates within the jar resources folder cert
    * are trusted. This is a convenience method so you dont have to pass a array of file paths.
    * **/
-  public TrustSpecifiedOkHttpClient(boolean useCertFolder) {
+  public TrustSpecifiedOkHttpClient(boolean useCertFolder,int connectTimeout, int readTimeout) {
     if(!useCertFolder){
       return;
     }
@@ -93,12 +93,12 @@ public final class TrustSpecifiedOkHttpClient {
       throw new RuntimeException(e);
     }
 
-    client = new OkHttpClient
-        .Builder()
-        .connectTimeout(15, TimeUnit.SECONDS)
-        .readTimeout(15, TimeUnit.SECONDS)
-        .sslSocketFactory(sslSocketFactory, trustManager)
-        .build();
+    OkHttpClient.Builder builder = new OkHttpClient.Builder();
+    builder.connectTimeout(connectTimeout, TimeUnit.SECONDS);
+    builder.readTimeout(readTimeout, TimeUnit.SECONDS);
+    builder.sslSocketFactory(sslSocketFactory, trustManager);
+
+    client = builder.build();
   }
   private InputStream createInputStreamFromFiles(String[] pathToJarResources){
     ArrayList<String> certArray = new ArrayList<>();
